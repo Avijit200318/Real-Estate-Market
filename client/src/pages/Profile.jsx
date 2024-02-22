@@ -2,7 +2,7 @@ import React, {useRef, useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {getDownloadURL, getStorage, ref, uploadBytesResumable} from "firebase/storage";
 import { app } from '../firebase';
-import {updateUserStart, updateUserFailure, updateUserSuccess} from "../redux/user/userSlice";
+import {updateUserStart, updateUserFailure, updateUserSuccess, deleteUserFailure, deleteUserSuccess, deleteUserStart} from "../redux/user/userSlice";
 
 
 const Profile = () => {
@@ -77,6 +77,22 @@ const Profile = () => {
     }
   };
 
+  const handleDeleteUser = async () => {
+    try{
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if(data.success === false){
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    }catch(error){
+      dispatch(deleteUserFailure(error.message));
+    }
+  }
 
   return (
     <div className='p-3 max-w-lg mx-auto'>
@@ -86,7 +102,7 @@ const Profile = () => {
         <img src={ formData.avatar || currentUser.avatar} onClick={()=>fileRef.current.click()} alt="ProfilePic" className='rounded-full h-24 w-24 object-cover cursor-pointer self-center mt-2' />
         <p className='text-sm self-center'>
           {fileUploadError ? (
-            <span className="text-red-700">Error Image Upload(image must be less than 2MB</span>
+            <span className="text-red-700">Error Image Upload(image must be less than 2MB)</span>
             ) : filePer > 0 && filePer < 100 ? (
               <span className="text-slate-700">
                 {`Uploading ${filePer}%`}
@@ -104,7 +120,7 @@ const Profile = () => {
         <button disabled={loading} className="bg-slate-700 rounded-lg text-white p-3 uppercase hover:opacity-95 disabled:opacity-80">{loading ? 'loading...' : 'Update'}</button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer">Delete Account</span>
+        <span className="text-red-700 cursor-pointer" onClick={handleDeleteUser}>Delete Account</span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
       <p className='text-red-700 mt-5'>{error ? error: ''}</p>
