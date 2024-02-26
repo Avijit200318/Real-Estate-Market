@@ -1,16 +1,16 @@
 import bcryptjs from "bcryptjs";
 import UserModel from "../models/user.model.js";
-import {errorHandle} from "../utils/error.js";
+import { errorHandle } from "../utils/error.js";
 import ListingModel from "../models/listing.model.js";
 
 export const test = (req, res) => {
-    res.json({
-        message: "hello world",
-    });
+  res.json({
+    message: "hello world",
+  });
 };
 
-export const  updateUser = async (req, res, next) => {
-    if (req.user.id !== req.params.id)
+export const updateUser = async (req, res, next) => {
+  if (req.user.id !== req.params.id)
     return next(errorHandle(401, 'You can only update your own account!'));
   try {
     if (req.body.password) {
@@ -51,14 +51,28 @@ export const deleteUser = async (req, res, next) => {
 };
 
 export const getUserListing = async (req, res, next) => {
-  if(req.user.id === req.params.id){
-    try{
-      const listing = await ListingModel.find({userRef: req.params.id});
+  if (req.user.id === req.params.id) {
+    try {
+      const listing = await ListingModel.find({ userRef: req.params.id });
       res.status(200).json(listing);
-    }catch(error){
+    } catch (error) {
       next(error);
     }
-  }else{
+  } else {
     return next(errorHandle(401, 'You can only view our listings!'));
+  }
+};
+
+export const getUser = async (req, res, next) => {
+  try {
+    const user = await UserModel.findById(req.params.id);
+    if (!user) {
+      return next(errorHandle(404, 'User not found'));
+    }
+
+    const { password: pass, ...rest } = user._doc;
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
   }
 }
