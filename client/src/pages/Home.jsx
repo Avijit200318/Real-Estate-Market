@@ -120,8 +120,8 @@ const Home = () => {
           </div>
         )}
       </div>
-      <div className="w-full flex justify-center my-4">
-        <Link to='/search' className='font-semibold text-[#1D24CA]'>Show All</Link>
+      <div className="w-full flex justify-center mb-12">
+        <Link to='/search' className='font-semibold text-[#1D24CA] sm:text-lg'>Show All</Link>
       </div>
     </div>
   )

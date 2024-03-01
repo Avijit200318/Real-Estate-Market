@@ -116,8 +116,8 @@ const Search = () => {
     }
 
     return (
-        <div className='flex flex-col md:flex-row'>
-            <div className='p-7 border-b-2 md:border-r-2 md:min-h-screen'>
+        <div className='flex flex-col xl:flex-row'>
+            <div className='p-7 border-b-2 md:border-r-2 md:h-auto md:px-24 lg:px-32 xl:px-7 xl:min-h-screen'>
                 <form onSubmit={handleSubmit} className='flex flex-col gap-8'>
                     <div className="flex items-center gap-2">
                         <label className='whitespace-nowrap font-semibold'>Search Term:</label>
@@ -167,7 +167,7 @@ const Search = () => {
             </div>
             <div className="flex-1">
                 <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 mt-5'>Lising results:</h1>
-                <div className="p-7 flex flex-wrap gap-4">
+                <div className="p-7 flex flex-wrap gap-4 sm:gap-2 md:px-2 xl:px-7">
                     {!loading && listings.length === 0 && (
                         <p className="text-xl text-slate-700">No listing found !</p>
                     )}
@@ -178,7 +178,7 @@ const Search = () => {
                     }
 
                     {showMore && (
-                        <button onClick={onShowMoreClick} className="text-green-700 font-semibold p-7 w-full text-center">Show More</button>
+                        <button onClick={onShowMoreClick} className="text-green-700 font-semibold p-7 w-full text-center sm:text-lg">Show More</button>
                     )}
                 </div>
             </div>
