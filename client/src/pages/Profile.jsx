@@ -172,12 +172,12 @@ const Profile = () => {
 
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer" onClick={handleDeleteUser}>Delete Account</span>
-        <span className="text-red-700 cursor-pointer" onClick={handleSignOut}>Sign Out</span>
+        <span className="text-red-700 cursor-pointer font-semibold" onClick={handleDeleteUser}>Delete Account</span>
+        <span className="text-red-700 cursor-pointer font-semibold" onClick={handleSignOut}>Sign Out</span>
       </div>
       <p className='text-red-700 mt-5'>{error ? error : ''}</p>
       <p className='text-green-500'>{updateSucess ? "User is updated successfully" : ''}</p>
-      <button onClick={handleShowListing} className="w-full text-green-700">Show Listings</button>
+      <button onClick={handleShowListing} className="w-full text-green-700 font-semibold">Show Listings</button>
       <p className="text-red-700 mt-5">{showListingError ? 'Error showing Listing' : ''}</p>
 
       {userListing && userListing.length > 0 && <div className="flex flex-col gap-4">

@@ -178,7 +178,7 @@ const Search = () => {
                     }
 
                     {showMore && (
-                        <button onClick={onShowMoreClick} className="text-green-700 hover:underline p-7 w-full text-center">Show More</button>
+                        <button onClick={onShowMoreClick} className="text-green-700 font-semibold p-7 w-full text-center">Show More</button>
                     )}
                 </div>
             </div>

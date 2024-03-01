@@ -52,7 +52,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-6 pt-28 pb-16 md:py-28 px-3 max-w-6xl mx-auto">
+      <div className="flex flex-col gap-6 pt-16 sm:pt-28 pb-16 md:py-28 px-3 max-w-6xl mx-auto">
         <h1 className='text-[#1D24CA] font-bold text-3xl lg:text-6xl'>Find Your next <span className='text-[#C499F3]'>Perfect</span><br /> place width ease</h1>
         <div className="text-gray-400 text-xs sm:text-sm font-semibold">
         EstateEase is the best place to find your next perfect place to liver. <br /> We have a wide range of properties for you to choose from.
@@ -67,7 +67,7 @@ const Home = () => {
           offerListing.map((listing) => (
             <SwiperSlide>
               <div
-                style={{background: `url(${listing.imageUrls[0]}) center no-repeat`,backgroundSize: 'cover',}} className='h-[500px]' key={listing._id}></div>
+                style={{background: `url(${listing.imageUrls[0]}) center no-repeat`,backgroundSize: 'cover',}} className='h-[250px] sm:h-[500px]' key={listing._id}></div>
             </SwiperSlide>
           ))}
       </Swiper>
@@ -119,6 +119,9 @@ const Home = () => {
             </div>
           </div>
         )}
+      </div>
+      <div className="w-full flex justify-center my-4">
+        <Link to='/search' className='font-semibold text-[#1D24CA]'>Show All</Link>
       </div>
     </div>
   )

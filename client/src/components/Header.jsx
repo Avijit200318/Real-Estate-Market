@@ -28,7 +28,7 @@ const Header = () => {
         <header className='bg-slate-200 shadow-md'>
             <div className="flex justify-between items-center max-w-6xl mx-auto p-3 xl:max-w-[85rem]">
                 <Link to='/'>
-                    <h1 className='font-bold text-sm sm:text-xl flex flex-wrap'>
+                    <h1 className='font-bold text-base sm:text-xl flex flex-wrap'>
                         <span className="text-[#C499F3]">Estate</span>
                         <span className="text-[#1D24CA]">Ease</span>
                     </h1>
@@ -50,7 +50,7 @@ const Header = () => {
                         {currentUser ? (
                             <img src={currentUser.avatar} alt="profile" className='w-10 h-10 rounded-full border-2 border-black object-cover ml-2' />
                         ) : (
-                            <li className='sm:inline text-slate-700 hover:underline cursor-pointer xl:text-lg'>Sign In</li>
+                            <li className='sm:inline text-slate-700 hover:underline cursor-pointer xl:text-lg'>Login</li>
                         )}
                     </Link>
                 </ul>
