@@ -166,9 +166,9 @@ const Profile = () => {
         <input type="text" placeholder='username' id='username' className='border p-3 rounded-lg' defaultValue={currentUser.username} onChange={handleChange} />
         <input type="email" placeholder='email' id='email' className='border p-3 rounded-lg' defaultValue={currentUser.email} onChange={handleChange} />
         <input type="password" placeholder='password' id='password' className='border p-3 rounded-lg' onChange={handleChange} />
-        <button disabled={loading} className="bg-slate-700 rounded-lg text-white p-3 uppercase hover:opacity-95 disabled:opacity-80">{loading ? 'loading...' : 'Update'}</button>
+        <button disabled={loading} className="bg-[#C499F3] rounded-lg text-white p-3 uppercase hover:opacity-95 disabled:opacity-80">{loading ? 'loading...' : 'Update'}</button>
 
-        <Link to='/create-listing' className='bg-green-700 text-white rounded-lg p-3 uppercase text-center hover:opacity-95' >Create Listing</Link>
+        <Link to='/create-listing' className='bg-[#1D24CA] text-white rounded-lg p-3 uppercase text-center hover:opacity-95' >Create Listing</Link>
 
       </form>
       <div className="flex justify-between mt-5">
