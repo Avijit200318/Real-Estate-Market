@@ -24,7 +24,7 @@ export const signIn = async (req, res , next) => {
         if(!validUser) return next(errorHandle(404, "user not found"));
         const validPassword = bcryptjs.compareSync(password, validUser.password);
         if(!validPassword) return next(errorHandle(401, "Wrong Credentials!"));
-        const expiresIn = 3600;
+        const expiresIn = 2;
         const token = jwt.sign({id: validUser._id}, process.env.JWT_SECRECT, { expiresIn });
         const {password: pass, ...rest } = validUser._doc;
         res.cookie('access_token', token, {httpOnly: true, maxAge: expiresIn * 1000 }).status(200).json(rest);
