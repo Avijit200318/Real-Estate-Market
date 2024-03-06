@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
-import {Swiper, SwiperSlide} from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css/bundle';
-import {Navigation} from "swiper/modules";
+import { Navigation } from "swiper/modules";
 import SwiperCore from "swiper";
 import ListingItems from '../components/ListingItems';
+import { useDispatch} from 'react-redux';
+import { deleteUserFailure, deleteUserSuccess, signOutStart } from '../redux/user/userSlice';
+
 
 const Home = () => {
   const [offerListing, setOfferListing] = useState([]);
   const [rentListing, setRentListing] = useState([]);
   const [saleListing, setSaleListing] = useState([]);
+  const dispatch = useDispatch();
+
   SwiperCore.use([Navigation]);
-  console.log(offerListing);
+  // console.log(offerListing);
 
   useEffect(() => {
     const fetchOfferListing = async () => {
@@ -48,14 +53,53 @@ const Home = () => {
       }
     }
 
-  }, [])
+  }, []);
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch('/api/user/userData');
+        if (response.ok) {
+          const data = await response.json();
+          if (data.userData) {
+            setUserData(data.userData);
+          } else {
+            // If userData is null, sign out the user
+            signOutUser();
+          }
+        } else if (response.status === 401) {
+          // Perform sign-out action if the request is unauthorized
+          signOutUser();
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const signOutUser = async () => {
+    try {
+      dispatch(signOutStart());
+      const res = await fetch('/api/auth/signout');
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+    } catch (error) {
+      dispatch(deleteUserFailure(data.message));
+    }
+  };
 
   return (
     <div>
       <div className="flex flex-col gap-6 pt-16 sm:pt-28 pb-16 md:py-28 px-3 max-w-6xl mx-auto">
         <h1 className='text-[#1D24CA] font-bold text-3xl lg:text-6xl'>Find Your next <span className='text-[#C499F3]'>Perfect</span><br /> place width ease</h1>
         <div className="text-gray-400 text-xs sm:text-sm font-semibold">
-        EstateEase is the best place to find your next perfect place to liver. <br /> We have a wide range of properties for you to choose from.
+          EstateEase is the best place to find your next perfect place to liver. <br /> We have a wide range of properties for you to choose from.
         </div>
         <Link to='/search' className='text-sm sm:text-md text-blue-800 font-bold hover:underline'>Let's start now...</Link>
       </div>
@@ -65,9 +109,9 @@ const Home = () => {
         {offerListing &&
           offerListing.length > 0 &&
           offerListing.map((listing) => (
-            <SwiperSlide>
+            <SwiperSlide key={listing._id}>
               <div
-                style={{background: `url(${listing.imageUrls[0]}) center no-repeat`,backgroundSize: 'cover',}} className='h-[250px] sm:h-[500px]' key={listing._id}></div>
+                style={{ background: `url(${listing.imageUrls[0]}) center no-repeat`, backgroundSize: 'cover', }} className='h-[250px] sm:h-[500px]' key={listing._id}></div>
             </SwiperSlide>
           ))}
       </Swiper>
