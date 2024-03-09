@@ -76,22 +76,3 @@ export const getUser = async (req, res, next) => {
     next(error);
   }
 }
-
-export const userData = (req, res, next) => {
-  const access_token = req.cookies.access_token;
-
-  if (access_token) {
-    // Extract user data from the access_token or another cookie
-    const userData = extractUserDataFromToken(access_token);
-    if (userData) {
-      console.log("user found");
-      res.json({ userData });
-    } else {
-      console.log("user not found");
-      res.status(401).json({ message: 'User data not found in the access token' });
-    }
-  } else {
-    console.log("user not found");
-    res.status(401).json({ message: 'No access token found' });
-  }
-}

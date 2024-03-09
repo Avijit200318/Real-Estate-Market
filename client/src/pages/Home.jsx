@@ -8,17 +8,22 @@ import ListingItems from '../components/ListingItems';
 import { useDispatch} from 'react-redux';
 import { deleteUserFailure, deleteUserSuccess, signOutStart } from '../redux/user/userSlice';
 
+import loadingImage from "../../public/images/loading.gif";
+
 
 const Home = () => {
   const [offerListing, setOfferListing] = useState([]);
   const [rentListing, setRentListing] = useState([]);
   const [saleListing, setSaleListing] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [loading, setLoading] = useState();
   const dispatch = useDispatch();
 
   SwiperCore.use([Navigation]);
   // console.log(offerListing);
 
   useEffect(() => {
+    setLoading(true);
     const fetchOfferListing = async () => {
       try {
         const res = await fetch('/api/listing/get?offer=true&limit=4');
@@ -27,6 +32,7 @@ const Home = () => {
         fetchRentListing();
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
 
@@ -40,6 +46,7 @@ const Home = () => {
         fetchSaleListing();
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
 
@@ -50,52 +57,22 @@ const Home = () => {
         setSaleListing(data);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
+    setLoading(false);
 
   }, []);
   
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch('/api/user/userData');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.userData) {
-            setUserData(data.userData);
-          } else {
-            // If userData is null, sign out the user
-            signOutUser();
-          }
-        } else if (response.status === 401) {
-          // Perform sign-out action if the request is unauthorized
-          signOutUser();
-        }
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
-    fetchUserData();
-  }, []);
-
-  const signOutUser = async () => {
-    try {
-      dispatch(signOutStart());
-      const res = await fetch('/api/auth/signout');
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(deleteUserFailure(data.message));
-        return;
-      }
-      dispatch(deleteUserSuccess(data));
-    } catch (error) {
-      dispatch(deleteUserFailure(data.message));
-    }
-  };
-
   return (
-    <div>
+    <>    
+      {loading && (
+        <div className="absolute w-full h-full top-0 bg-[#0097ff] flex justify-center items-center">
+          <img src={loadingImage} alt="Loading..." className='sm:w-[30rem]' />
+        </div>
+      )}
+      {loading === false && (
+        <div>
       <div className="flex flex-col gap-6 pt-16 sm:pt-28 pb-16 md:py-28 px-3 max-w-6xl mx-auto">
         <h1 className='text-[#1D24CA] font-bold text-3xl lg:text-6xl'>Find Your next <span className='text-[#C499F3]'>Perfect</span><br /> place width ease</h1>
         <div className="text-gray-400 text-xs sm:text-sm font-semibold">
@@ -168,6 +145,8 @@ const Home = () => {
         <Link to='/search' className='font-semibold text-[#1D24CA] sm:text-lg'>Show All</Link>
       </div>
     </div>
+      )}
+    </>
   )
 }
 
