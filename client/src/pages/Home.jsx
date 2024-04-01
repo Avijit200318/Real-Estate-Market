@@ -77,7 +77,7 @@ const Home = () => {
       </div>
 
       {/* swiper */}
-      <Swiper modules={[Navigation]} spaceBetween={50} slidesPerView={1} navigation={true} autoplay={{ delay: 3000, disableOnInteraction: false }}>
+      <Swiper modules={[Navigation]} spaceBetween={50} slidesPerView={1} navigation={true} autoplay={{ delay: 5000, disableOnInteraction: false }}>
         {offerListing &&
           offerListing.length > 0 &&
           offerListing.map((listing) => (
