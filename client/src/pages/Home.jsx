@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/css/bundle';
-import { Navigation } from "swiper/modules";
+import { Navigation, Autoplay } from "swiper/modules";
 import SwiperCore from "swiper";
 import ListingItems from '../components/ListingItems';
 import { useDispatch} from 'react-redux';
 import { deleteUserFailure, deleteUserSuccess, signOutStart } from '../redux/user/userSlice';
 
-import loadingImage from "../../public/images/loading.gif";
 
 
 const Home = () => {
@@ -19,7 +18,7 @@ const Home = () => {
   const [loading, setLoading] = useState();
   const dispatch = useDispatch();
 
-  SwiperCore.use([Navigation]);
+  SwiperCore.use([Navigation, Autoplay]);
   // console.log(offerListing);
 
   useEffect(() => {
@@ -66,11 +65,7 @@ const Home = () => {
   
   return (
     <>    
-      {loading && (
-        <div className="absolute w-full h-full top-0 bg-[#0097ff] flex justify-center items-center">
-          <img src={loadingImage} alt="Loading..." className='sm:w-[30rem]' />
-        </div>
-      )}
+
       {loading === false && (
         <div>
       <div className="flex flex-col gap-6 pt-16 sm:pt-28 pb-16 md:py-28 px-3 max-w-6xl mx-auto">
@@ -82,7 +77,7 @@ const Home = () => {
       </div>
 
       {/* swiper */}
-      <Swiper navigation>
+      <Swiper modules={[Navigation]} spaceBetween={50} slidesPerView={1} navigation={true} autoplay={{ delay: 3000, disableOnInteraction: false }}>
         {offerListing &&
           offerListing.length > 0 &&
           offerListing.map((listing) => (
