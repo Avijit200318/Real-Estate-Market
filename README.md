@@ -1,4 +1,4 @@
-##EstateEase
+## EstateEase
 
 **Live Link** https://mern-estate-market.onrender.com/
 
